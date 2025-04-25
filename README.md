@@ -1,1 +1,0 @@
-# Technical Indicators in Python
