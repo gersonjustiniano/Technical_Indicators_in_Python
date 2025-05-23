@@ -1,2 +1,1 @@
-# Technical Indicators in Python
-# All rights reserved.
+# Technical Indicators in Python.
