@@ -60,11 +60,15 @@ class Bollinger:
 
     def plot_data(self,var):
         self.fig.subplots_adjust(top=0.95,bottom=0.05,right=0.98,left=0.1,hspace=0,wspace=0)
-        ax=self.fig.add_subplot()
+        ax=self.fig.add_gridspec(6,1)
+        ax1=self.fig.add_subplot(ax[0:4,:])
+        ax2=self.fig.add_subplot(ax[4:5,:])
+        ax3=self.fig.add_subplot(ax[5:6,:])
 
-        ax.clear()
-        ax.set_title(self.title)
-        ax.set_xticks(np.arange(0,len(var['time']),40))
+        ax1.clear()
+        ax1.set_title(self.title)
+        ax1.set_xticks([])
+        ax1.set_xlim(-1,len(var['time'])+1)
 
         for i in range(len(var['time'])):
             if var['open'][i]>var['close'][i]:
@@ -73,14 +77,29 @@ class Bollinger:
                 ccolor='g'
             else:
                 ccolor='gray'
-            ax.plot([var['time'][i]]*2,[var['open'][i],var['close'][i]],c=ccolor,lw=3)
-            ax.plot([var['time'][i]]*2,[var['high'][i],var['low'][i]],c=ccolor,lw=0.5)
+            ax1.plot([var['time'][i]]*2,[var['open'][i],var['close'][i]],c=ccolor,lw=3)
+            ax1.plot([var['time'][i]]*2,[var['high'][i],var['low'][i]],c=ccolor,lw=0.5)
 
         #PLOT Bollinger:
-        ax.plot(var['time'],var['avg_BB'],c='black',lw=1)
-        ax.plot(var['time'],var['up_BB'],c='black',lw=1.5,label='Bollinger')
-        ax.plot(var['time'],var['down_BB'],c='black',lw=1.5)
-        ax.legend()
+        ax1.plot(var['time'],var['avg_BB'],c='black',lw=1)
+        ax1.plot(var['time'],var['up_BB'],c='black',lw=1,label='Bollinger')
+        ax1.plot(var['time'],var['down_BB'],c='black',lw=1)
+        ax1.legend(loc='upper left')
+
+        ax2.clear()
+        ax2.set_xticks([])
+        ax2.set_yticks([0,1])
+        ax2.set_xlim(-1,len(var['time'])+1)
+        [ax2.axhline(y=i,c='black',lw=0.7,ls='--') for i in [0,1]]
+        ax2.plot(var['time'],var['percentB'],c='b',lw=1,label='Percent B%')
+        ax2.legend(loc='upper left')
+
+        ax3.clear()
+        ax3.set_xticks(np.arange(0,len(var['time']),40))
+        ax3.set_yticks([])
+        ax3.set_xlim(-1,len(var['time'])+1)
+        ax3.plot(var['time'],var['bandWidth'],c='b',lw=1,label='BandWidth')
+        ax3.legend(loc='upper left')
 
         plt.show()
 
