@@ -12,7 +12,7 @@ class ATR:
         self.n=100
         self.fig=plt.figure()
         self.title='ATR'
-        self.calc_type='pandas'   #'dict' or 'pandas'
+        self.calc_type='dict'   #'dict' or 'pandas'
         self.indi=indi
 
     def set_variables(self):
